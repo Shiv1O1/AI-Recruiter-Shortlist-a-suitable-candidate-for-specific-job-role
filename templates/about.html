@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+	<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>About Us</title>
+  </head>
+
+  <body>
+
+    <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">AI Recruiter</label>
+      <ul>
+          <li><a href="/dashboard/{{uid}}">Dashboard</a></li>
+          <li><a href="/resume/{{uid}}">Resume</a></li>
+          <li><a class="active" href="/about/{{uid}}">About Us</a></li>
+          <li><a href="/">Sign Out</a></li>
+      </ul>
+    </nav>
+
+  <h1>Team Enigma</h1> 
+     
+    <div class="card">
+
+      <div class="container">
+        <div class="image">
+          <img src="{{url_for('static', filename='Shivam.png')}}">
+        </div>
+        <div class="content">
+          <div class="info">
+            <h2>Shivam Yadav</h2>
+            <span>Team Lead</span>
+          </div>
+        </div>
+        <ul class="ulist">
+        <li class="list"><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+        <li class="list"><a href="https://www.linkedin.com/in/shivay01/"><span class="fab fa-linkedin"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-instagram"></span></a></li>
+        <li class="list"><a href="https://github.com/Shiv1O1"><span class="fab fa-github"></span></a></li>
+        </ul>
+      </div>
+
+      <div class="container">
+        <div class="image">
+          <img src="{{url_for('static', filename='srivatsa.jpg')}}">
+        </div>
+        <div class="content">
+          <div class="info">
+            <h2>Srivatsa Datta Prakki</h2>
+            <span>Data Scientist/Analyst</span>
+          </div>
+        </div>
+        <ul class="ulist">
+        <li class="list"><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+        <li class="list"><a href="https://www.linkedin.com/in/srivatsa-datta-prakki-a222a3169/"><span class="fab fa-linkedin"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-instagram"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-github"></span></a></li>
+        </ul>
+      </div>
+
+      <div class="container">
+        <div class="image">
+          <img src="{{url_for('static', filename='siddhant.jpg')}}">
+        </div>
+        <div class="content">
+          <div class="info">
+            <h2>Siddhant Kesarkar</h2>
+            <span>Web Developer</span>
+          </div>
+        </div>
+        <ul class="ulist">
+        <li class="list"><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+        <li class="list"><a href="https://www.linkedin.com/in/siddhant-kesarkar-077888192/"><span class="fab fa-linkedin"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-instagram"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-github"></span></a></li>
+        </ul>
+      </div>
+
+      <div class="container">
+        <div class="image">
+          <img src="{{url_for('static', filename='mandar.jpg')}}">
+        </div>
+        <div class="content">
+          <div class="info">
+            <h2>Mandar Patil</h2>
+            <span>Web Developer</span>
+          </div>
+        </div>
+        <ul class="ulist">
+        <li class="list"><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+        <li class="list"><a href="https://www.linkedin.com/in/mandar-patil-302152169/"><span class="fab fa-linkedin"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-instagram"></span></a></li>
+        <li class="list"><a href="#"><span class="fab fa-github"></span></a></li>
+        </ul>
+      </div>
+
+    </div>
+
+</body>
+</html>
+
+

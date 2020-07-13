@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Resume Details</title>
+	<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+	<title>Resume</title>
+  </head>
+
+  <body>
+
+    <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">AI Recruiter</label>
+      <ul>
+      <li><a href="/dashboard/{{uid}}">Dashboard</a></li>
+      <li><a class="active" href="/resume/{{uid}}">Resume</a></li>
+      <li><a href="/about/{{uid}}">About Us</a></li>
+      <li><a href="/">Sign Out</a></li>
+      </ul>
+    </nav>
+
+    <div class="testbox">
+    <form action="/resume/{{uid}}" method="post">
+        <div class="banner">
+          <h1>Resume Details</h1>
+        </div>
+       
+        <div class="item">
+          <p> <b>Choice of Post:</b> </p>
+          <select name="post">
+            <option value=""></option>
+            <option value="1">*Please select*</option>
+            <option value="Data Scientist">Data Scientist</option>
+            <option value="Web Developer">Web Developer</option>
+            <option value="Android Developer">Android Developer</option>
+          </select>
+        </div>
+
+        <div class="item">
+          <p><b>Give your Video Resume(Get shareable link):</b></p>
+          <input type="text" name="link"  required>
+        </div>
+
+        <div class="btn-block">
+          <button type="submit">SUBMIT</button>
+        </div>
+      </form>
+    </div>
+	 <p class="caution"> After clicking on the submit button wait for a couple of minutes, you will be redirected to dashboard tab. <br><br> Please do not refresh the page. </p>
+
+  </body>
+</html>

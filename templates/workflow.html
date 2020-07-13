@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='workflow.css') }}">
+	<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Workflow </title>
+</head>
+<body>
+
+    <!-- in a wrapping section include different containers for each step of the flow: data sources, build, deploy -->
+<section class="container">
+
+
+    <!-- in the sources container show three cards, side by side, or one atop the other on smaller viewports -->
+    <div class="container__sources1">
+  
+      <div class="sources--data1">
+        <h3>Dashboard</h3>
+        <p>Go to Dashboard. Read about company & go through our available job posts.</p>
+      </div>
+    </div>
+    <!-- include a simple line to divide the container, and animate it to show a connection between the different containers  -->
+    <svg viewbox="0 0 10 100">
+      <line x1="5" x2="5" y1="0" y2="100"/>
+    </svg>
+  
+  
+    <!-- in the build container show two cards, atop of one another and the first of one showing an SVG icon -->
+    <div class="container__sources2">
+      <div class="sources--data2">
+        <h3>Resume</h3>
+        <p>Go to Resume tab. Select the job post & upload your shareable google drive video resume link.<br> After submitting please wait for a couple of minutes you will be redirected to dashboard.</p>
+      </div>
+    </div>
+  
+    <!-- repeat the svg line to connect the second and third containers as well -->
+    <svg viewbox="0 0 10 100">
+      <line x1="5" x2="5" y1="0" y2="100"/>
+    </svg>
+  
+    <!-- in the deploy container show simply text, without a wrapping card -->
+    <div class="container__sources3">
+      <div class="sources--data3">
+      <h3>Chatbot</h3>
+      <p>Comeback to dashboard tab & proceed with the conversation with chatbot.</p>
+     </div>
+    </div>
+
+    <form action="/workflow/{{uid}}"  method="post">
+      <button type="submit" class="btn">Proceed to Dashboard</button>
+    </form>
+  
+  </section>
+</body>
+</html>

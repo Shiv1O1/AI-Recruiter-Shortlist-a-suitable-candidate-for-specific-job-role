@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <title>Dashboard</title>
+</head>
+
+<body>
+
+ <nav>
+      <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo"> AI Recruiter </label>
+        <ul>
+            <li><a class="active" href="/dashboard/{{uid}}">Dashboard</a></li>
+            <li><a href="/resume/{{uid}}">Resume</a></li>
+            <li><a href="/about/{{uid}}">About Us</a></li>
+            <li><a href="/">Sign Out</a></li>
+        </ul>
+    </nav>
+
+<section class="hero-section">
+  <div class="card-grid">
+
+    <a class="card" href="https://www.ibm.com/in-en">
+      <div class="card__background" style="background-image: url({{url_for('static', filename='ibm.png')}})"></div>
+      <div class="card__content">
+        <p class="card__category"> <b>Organisation</b></p>
+        <h3 class="card__heading">IBM</h3>
+      </div>
+    </a>
+
+    <a class="card" href="https://www.mastersindatascience.org/careers/data-scientist/">
+      <div class="card__background" style="background-image: url({{url_for('static', filename='ds.jpg')}})"></div>
+      <div class="card__content">
+        <p class="card__category"> <b>Available </b></p>
+        <h3 class="card__heading">Data Scientist</h3>
+      </div>
+    </a>
+
+    <a class="card" href="https://en.wikipedia.org/wiki/Web_developer">
+      <div class="card__background" style="background-image: url({{url_for('static', filename='web.jpg')}})"></div>
+      <div class="card__content">
+        <p class="card__category"> <b>Available </b></p>
+        <h3 class="card__heading">Web Developer</h3>
+      </div>
+    </a>
+
+    <a class="card" href="https://www.jobhero.com/career-guides/interviews/prep/what-is-an-android-developer">
+      <div class="card__background" style="background-image: url({{url_for('static', filename='android.jpg')}})"></div>
+      <div class="card__content">
+        <p class="card__category"> <b>Available</b></p>
+        <h3 class="card__heading">Android Developer</h3>
+
+      </div>
+    </a>
+
+  <div>
+</section> 
+	<form action="" method="post">
+      <button type="submit" class="result" name="submit" value="result"> Get Result </button>
+    </form>
+ 
+ <script>
+  window.watsonAssistantChatOptions = {
+      integrationID: "716b8ace-d199-468a-b8d2-eb68e6660a2f", // The ID of this integration.
+      region: "eu-gb", // The region your integration is hosted in.
+      serviceInstanceID: "a27c85ef-e1ed-430d-bfbc-a4e763d26167", // The ID of your service instance.
+      onLoad: function(instance) { instance.render(); }
+    };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
+    document.head.appendChild(t);
+  });
+</script>
+
+</body>
+</html>

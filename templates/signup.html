@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signup.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='popup.css') }}">
+  <link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="inactive underlineHover"><a href="/"> Sign In </a></h2>
+    <h2 class="active">Sign Up </h2>
+
+    
+    <!-- Login Form -->
+    <form action = "/signup" method="POST">
+
+     <input type = "text" class="fadeIn second" placeholder="First Name" required name="firstname"> 
+     <input type = "text" class="fadeIn third" placeholder="Middle Name" required name="middlename">  
+     <input type = "text" class="fadeIn fourth" placeholder="Last Name" required name="lastname">  
+     <input type = "text" class="fadeIn fifth" placeholder="Email-Id" required name="username"> 
+     <input type = "password" class="fadeIn sixth" placeholder="Password" required name="password" minlength="6"> 
+     
+     <div class = "fadIn seventh">
+     <div class="box">
+     <a class="button" href="#popup1">Click here to read terms & conditions</a>
+     </div>
+
+     <div id="popup1" class="overlay">
+        <div class="popup">
+          <h2>Terms and Conditions</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <main>
+              <ol class="gradient-list">
+                <li>Good Internet connectivity is required for smooth completion of the process.</li>
+                <li>Be ready with your Video Resume's Google drive shareable link which is made <b>public</b> before starting the process. </li>
+                <li>You can go through the entire screening process only once. </li>
+                <li>Do not end the conversation with ChatBot in between.</li>
+              </ol>
+            </main>
+          </div>
+        </div>
+      </div>  
+      </div>
+      <input type = "checkbox" required> I agree to T&C
+      <br>
+      <br>
+      <br>
+     <input type="submit" class="fadeIn eighth" name="submit" value="Sign Up">
+    </form>
+
+    <!-- Remind Passowrd -->
+  <!--  <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>  -->
+
+  </div>
+</div>
+</body>
+</html>
+
+
+

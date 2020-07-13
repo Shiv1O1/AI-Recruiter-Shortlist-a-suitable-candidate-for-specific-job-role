@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+  <link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="active"> Sign In </h2>
+    <h2 class="inactive underlineHover"><a href="/signup">Sign Up </a></h2>
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="{{ url_for('static', filename='profile_img.jpeg') }}" id="icon"/>
+    </div>
+
+    <!-- Login Form -->
+    <form action="/" method ="POST">
+      <input type="text" id="username" class="fadeIn second" required name="username" placeholder="E-mail" value="{{ request.form.username }}">
+      <input type="password" id="password" class="fadeIn third" required name="password" placeholder="Password" value="{{ request.form.password }}">
+      <input type="submit" class="fadeIn fourth" value="Login">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forget Password</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
+
+
+
