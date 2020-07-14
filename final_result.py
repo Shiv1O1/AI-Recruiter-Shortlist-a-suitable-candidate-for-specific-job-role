@@ -20,7 +20,7 @@ class Email(object):
         stmt = ibm_db.exec_immediate(conn, query1)
         score = ibm_db.fetch_assoc(stmt)['POINTS']
 
-        fromaddr = "noreplyteamenigma@gmail.com"
+        fromaddr = "Organisation Email-Id"
         toaddr = result['EMAIL']
 
         msg = MIMEMultipart()
@@ -43,7 +43,7 @@ class Email(object):
 
         server = smtplib.SMTP('smtp.gmail.com', port=587)
         server.starttls()
-        server.login(fromaddr, "Teamenigma@1507")
+        server.login(fromaddr, "Organisation Password")
 
         text = msg.as_string()
         server.sendmail(fromaddr, toaddr, text)
