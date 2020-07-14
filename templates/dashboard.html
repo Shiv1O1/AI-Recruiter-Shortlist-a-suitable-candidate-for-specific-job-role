@@ -8,9 +8,12 @@
   <link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <title>Dashboard</title>
+<script type="text/javascript">
+	window.history.forward();
+	function noBack() { window.history.forward(); }
+</script>
 </head>
-
-<body>
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
  <nav>
       <input type="checkbox" id="check">
