@@ -1,0 +1,2855 @@
+{
+  "intents": [
+    {
+      "intent": "Choice_Post",
+      "examples": [
+        {
+          "text": "Data Scientist"
+        },
+        {
+          "text": "Web Developer"
+        },
+        {
+          "text": "Android Developer"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "Character_Check",
+      "values": [
+        {
+          "type": "patterns",
+          "value": "Success",
+          "patterns": [
+            "[a-zA-Z0-9 .,\\-\\;:']{200,300}",
+            "[a-zA-Z0-9 \\.\\,\\-\\;\\:’]{200,300}"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Read_Email_ID",
+      "values": [
+        {
+          "type": "patterns",
+          "value": "email",
+          "patterns": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Confimation",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Yes",
+          "synonyms": [
+            "Y",
+            "Sure",
+            "Yeah",
+            "Okay",
+            "all right ",
+            "yup",
+            "ok"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "No",
+          "synonyms": [
+            "N",
+            "Nope",
+            "Not at all",
+            "Absolutely not",
+            "Certainly not ",
+            "nay",
+            "no way"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Video_Resume_Link",
+      "values": [
+        {
+          "type": "patterns",
+          "value": "video_url",
+          "patterns": [
+            "https://drive.google.com/file/d/+[a-zA-z0-9.\\/\\+=-_\\?:-]*"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Basic_Question",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "true",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "false",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Choice_Post",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Data Scientist",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Android Developer",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Web Developer",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "webhooks": [
+    {
+      "url": "https://eu-gb.functions.cloud.ibm.com/api/v1/web/shivamyadav182000%40gmail.com_dev/default/get_ques.json",
+      "name": "main_webhook",
+      "headers": []
+    }
+  ],
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Greter than level 1",
+      "parent": "node_5_1593009871160",
+      "context": {
+        "level": "<? $level - 1?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592931796401"
+      },
+      "conditions": "$level > 1",
+      "dialog_node": "node_5_1593010007161",
+      "previous_sibling": "node_9_1593009938305"
+    },
+    {
+      "type": "standard",
+      "title": "Level 1",
+      "parent": "node_5_1593009871160",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592931796401"
+      },
+      "conditions": "$level == 1",
+      "dialog_node": "node_9_1593009938305"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_6_1594043514811",
+      "context": {},
+      "conditions": "$ret_perso",
+      "dialog_node": "response_5_1594114694177",
+      "previous_sibling": "node_4_1594235063827"
+    },
+    {
+      "type": "response_condition",
+      "parent": "node_6_1594043514811",
+      "conditions": "anything_else",
+      "dialog_node": "response_10_1594114697317",
+      "previous_sibling": "response_5_1594114694177"
+    },
+    {
+      "type": "standard",
+      "title": "Nothing",
+      "parent": "node_6_1594043514811",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "Anything else"
+      },
+      "conditions": "$ret_perso.result == 0",
+      "dialog_node": "node_4_1594235063827",
+      "previous_sibling": "node_5_1594234988263"
+    },
+    {
+      "type": "standard",
+      "title": "Update Score",
+      "parent": "node_6_1594043514811",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "type": "score",
+            "email": "$email"
+          },
+          "result_variable": "webhook_result_2"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "Anything else"
+      },
+      "conditions": "$ret_perso.result == 1",
+      "dialog_node": "node_5_1594234988263"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_8_1592126359731",
+      "event_name": "focus",
+      "dialog_node": "handler_8_1592126359750",
+      "previous_sibling": "handler_9_1592126359750"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_8_1592126359731",
+      "context": {
+        "Choice_Post": "@Choice_Post"
+      },
+      "conditions": "@Choice_Post",
+      "event_name": "input",
+      "dialog_node": "handler_9_1592126359750"
+    },
+    {
+      "type": "standard",
+      "title": "Web developer",
+      "parent": "node_5_1592770829531",
+      "context": {
+        "cp": "wd"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_3_1594114254107"
+      },
+      "conditions": "$Choice_Post == \"Web Developer\"",
+      "dialog_node": "node_5_1592771131627",
+      "previous_sibling": "node_2_1592771067689"
+    },
+    {
+      "type": "standard",
+      "title": "Android Developer",
+      "parent": "node_5_1592770829531",
+      "context": {
+        "cp": "ad"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_3_1594114254107"
+      },
+      "conditions": "$Choice_Post == \"Android Developer\"",
+      "dialog_node": "node_1_1592771182226",
+      "previous_sibling": "node_5_1592771131627"
+    },
+    {
+      "type": "slot",
+      "parent": "node_5_1592770829531",
+      "dialog_node": "slot_7_1592770883054",
+      "previous_sibling": "node_1_1592771182226"
+    },
+    {
+      "type": "standard",
+      "title": "Data Science",
+      "parent": "node_5_1592770829531",
+      "context": {
+        "cp": "ds"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_3_1594114254107"
+      },
+      "conditions": "$Choice_Post == \"Data Scientist\"",
+      "dialog_node": "node_2_1592771067689"
+    },
+    {
+      "type": "slot",
+      "parent": "node_3_1592125940954",
+      "variable": "$Choice_Post",
+      "dialog_node": "slot_8_1592126359731",
+      "previous_sibling": "handler_1_1592126358782"
+    },
+    {
+      "type": "event_handler",
+      "parent": "node_3_1592125940954",
+      "event_name": "focus",
+      "dialog_node": "handler_1_1592126358782"
+    },
+    {
+      "type": "standard",
+      "title": "Read Email",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1592128374760",
+      "context": {
+        "email": "<?input.text?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_4_1592124827426"
+    },
+    {
+      "type": "standard",
+      "title": "Store Answer",
+      "parent": "node_6_1594233571352",
+      "context": {
+        "text1": "<? input.text?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_10_1594233634266"
+    },
+    {
+      "type": "response_condition",
+      "parent": "node_3_1594114254107",
+      "conditions": "anything_else",
+      "dialog_node": "response_2_1594114279756",
+      "previous_sibling": "response_7_1594114276368"
+    },
+    {
+      "type": "standard",
+      "title": "All Good",
+      "parent": "node_3_1594114254107",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1592736263055"
+      },
+      "conditions": "$ini_data.result == \"success\"",
+      "dialog_node": "node_8_1594325705264",
+      "previous_sibling": "node_2_1594325598504"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1594114254107",
+      "conditions": "$ini_data",
+      "dialog_node": "response_7_1594114276368",
+      "previous_sibling": "node_8_1594325705264"
+    },
+    {
+      "type": "standard",
+      "title": "Already exists",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You can give the Assessment only Once."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1594114254107",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "Anything else"
+      },
+      "conditions": "$ini_data.result == \"already_exists\"",
+      "dialog_node": "node_2_1594325598504"
+    },
+    {
+      "type": "standard",
+      "title": "normal",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_6_1593009771143",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592931796401"
+      },
+      "conditions": "$level <=5",
+      "dialog_node": "node_7_1593960381004",
+      "previous_sibling": "node_8_1593960072362"
+    },
+    {
+      "type": "standard",
+      "title": "more than levels",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_6_1593009771143",
+      "context": {
+        "level": 5
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592931796401"
+      },
+      "conditions": "$level > 5",
+      "dialog_node": "node_8_1593960072362"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check Success",
+      "parent": "node_3_1594233978207",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1594043514811"
+      },
+      "conditions": "@Character_Check:Success",
+      "dialog_node": "node_6_1594237715427",
+      "previous_sibling": "node_9_1594237671191"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You entered less number of words. Please Elaborate a bit more."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1594233978207",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1594233913740"
+      },
+      "conditions": "@Character_Check != \"Success\"",
+      "dialog_node": "node_9_1594237671191"
+    },
+    {
+      "type": "standard",
+      "title": "Score after que 1",
+      "parent": "node_1_1592741606076",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_8_1592742084150"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 1",
+      "dialog_node": "node_4_1592748287090",
+      "previous_sibling": "node_4_1592741958835"
+    },
+    {
+      "type": "standard",
+      "title": "Score after que 5",
+      "parent": "node_1_1592741606076",
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true && $que_ans == 5",
+      "dialog_node": "node_3_1592748743764",
+      "previous_sibling": "node_7_1592742542483"
+    },
+    {
+      "type": "standard",
+      "title": "Question 4",
+      "output": {
+        "generic": [
+          {
+            "title": "Which Code Used By Android Is Not A Open Source",
+            "options": [
+              {
+                "label": "Video Driver",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "WiFi Driver",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "Device Driver",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "Bluetooth Driver",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_1_1592741606076",
+      "context": {
+        "que_ans": 4
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_1_1592748641969"
+      },
+      "conditions": "true && $que_ans==3",
+      "dialog_node": "node_3_1592742378581",
+      "previous_sibling": "node_5_1592748546996"
+    },
+    {
+      "type": "standard",
+      "title": "Question 2",
+      "output": {
+        "generic": [
+          {
+            "title": "Which Media Format Is Not Supported By Android",
+            "options": [
+              {
+                "label": "MP4",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "MIDI",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "AVI",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "MPEG",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_1_1592741606076",
+      "context": {
+        "que_ans": 2
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_1_1592748395273"
+      },
+      "conditions": "true && $que_ans==1",
+      "dialog_node": "node_8_1592742084150",
+      "previous_sibling": "node_4_1592748287090"
+    },
+    {
+      "type": "standard",
+      "title": "score after que 4",
+      "parent": "node_1_1592741606076",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_7_1592742542483"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 4",
+      "dialog_node": "node_1_1592748641969",
+      "previous_sibling": "node_3_1592742378581"
+    },
+    {
+      "type": "standard",
+      "title": "Score after que 2",
+      "parent": "node_1_1592741606076",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_4_1592742237216"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 2",
+      "dialog_node": "node_1_1592748395273",
+      "previous_sibling": "node_8_1592742084150"
+    },
+    {
+      "type": "standard",
+      "title": "Question 5",
+      "output": {
+        "generic": [
+          {
+            "title": "In Which Directory XML Layout Files Are Stored",
+            "options": [
+              {
+                "label": "/assets",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "/src",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "/res/values",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "/res/layout",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_1_1592741606076",
+      "context": {
+        "que_ans": 5
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_3_1592748743764"
+      },
+      "conditions": "true && $que_ans==4",
+      "dialog_node": "node_7_1592742542483",
+      "previous_sibling": "node_1_1592748641969"
+    },
+    {
+      "type": "standard",
+      "title": "Question 3",
+      "output": {
+        "generic": [
+          {
+            "title": "How Many Levels Of Securities Are In Android?",
+            "options": [
+              {
+                "label": "Android Level Security",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "App And Kernel Level Security ",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "Java Level Security",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "None Of The Above",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_1_1592741606076",
+      "context": {
+        "que_ans": 3
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_5_1592748546996"
+      },
+      "conditions": "true && $que_ans==2",
+      "dialog_node": "node_4_1592742237216",
+      "previous_sibling": "node_1_1592748395273"
+    },
+    {
+      "type": "standard",
+      "title": "score after que 3",
+      "parent": "node_1_1592741606076",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_3_1592742378581"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 3",
+      "dialog_node": "node_5_1592748546996",
+      "previous_sibling": "node_4_1592742237216"
+    },
+    {
+      "type": "standard",
+      "title": "Question 1",
+      "output": {
+        "generic": [
+          {
+            "title": "Android Web Browser Is Based On ",
+            "options": [
+              {
+                "label": "Chrome",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "Open-source Webkit",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "Safari",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "Firefox",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_1_1592741606076",
+      "context": {
+        "que_ans": 1
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_4_1592748287090"
+      },
+      "conditions": "true && $que_ans==0",
+      "dialog_node": "node_4_1592741958835",
+      "previous_sibling": "node_6_1592741696231"
+    },
+    {
+      "type": "standard",
+      "title": "Context Variable",
+      "parent": "node_1_1592741606076",
+      "context": {
+        "que_ans": 0
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_4_1592741958835"
+      },
+      "conditions": "true",
+      "dialog_node": "node_6_1592741696231"
+    },
+    {
+      "type": "response_condition",
+      "parent": "node_1_1594119448419",
+      "conditions": "anything_else",
+      "dialog_node": "response_8_1594119462893",
+      "previous_sibling": "response_8_1594119460282"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1594119448419",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_8_1594119460282"
+    },
+    {
+      "type": "standard",
+      "title": "wrong",
+      "parent": "node_3_1592748743764",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1593959794775"
+      },
+      "conditions": "@Basic_Question:false",
+      "dialog_node": "node_3_1592748840380",
+      "previous_sibling": "node_9_1592748785318"
+    },
+    {
+      "type": "standard",
+      "title": "correct",
+      "parent": "node_3_1592748743764",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1593959794775"
+      },
+      "conditions": "@Basic_Question:true",
+      "dialog_node": "node_9_1592748785318"
+    },
+    {
+      "type": "standard",
+      "title": "wrong email",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Incorrect email format."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592124827426",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1592128374760"
+      },
+      "conditions": "@Read_Email_ID != \"email\"",
+      "dialog_node": "node_8_1593947651336",
+      "previous_sibling": "node_2_1593947585214"
+    },
+    {
+      "type": "standard",
+      "title": "correct email",
+      "parent": "node_4_1592124827426",
+      "metadata": {
+        "callout": {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "": ""
+          },
+          "result_variable": "ret_email"
+        },
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_7_1592125282875"
+      },
+      "conditions": "@Read_Email_ID",
+      "dialog_node": "node_2_1593947585214"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "Anything else",
+      "disabled": true,
+      "dialog_node": "response_2_1592763243450"
+    },
+    {
+      "type": "standard",
+      "title": "Some or All Correct",
+      "parent": "node_9_1593959794775",
+      "context": {
+        "level": "$score"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592931796401"
+      },
+      "conditions": "$score > 0",
+      "dialog_node": "node_9_1594043150376",
+      "previous_sibling": "node_7_1594043109275"
+    },
+    {
+      "type": "standard",
+      "title": "All Wrong",
+      "parent": "node_9_1593959794775",
+      "context": {
+        "level": 1
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592931796401"
+      },
+      "conditions": "$score == 0",
+      "dialog_node": "node_7_1594043109275"
+    },
+    {
+      "type": "standard",
+      "title": "Ques2",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Do you feel other countries should also ban Chinese apps?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592770640664",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_2_1594233696375"
+      },
+      "dialog_node": "node_2_1594233667429",
+      "previous_sibling": "node_6_1594233571352"
+    },
+    {
+      "type": "standard",
+      "title": "Ques3",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Do you think Chinese Government is stealing data from their apps?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592770640664",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_9_1594233822958"
+      },
+      "dialog_node": "node_9_1594233778170",
+      "previous_sibling": "node_2_1594233667429"
+    },
+    {
+      "type": "standard",
+      "title": "Ques5",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "How can Indian startups benefit from this ban?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592770640664",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_3_1594233978207"
+      },
+      "dialog_node": "node_6_1594233913740",
+      "previous_sibling": "node_9_1594233857442"
+    },
+    {
+      "type": "standard",
+      "title": "Ques4",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Are apps like TikTok having bad effect on society?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592770640664",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_1_1594233881294"
+      },
+      "dialog_node": "node_9_1594233857442",
+      "previous_sibling": "node_9_1594233778170"
+    },
+    {
+      "type": "standard",
+      "title": "Ques1",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "What are your views on the recent Chinese app ban by India?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592770640664",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_10_1594233634266"
+      },
+      "dialog_node": "node_6_1594233571352",
+      "previous_sibling": "node_4_1594234017632"
+    },
+    {
+      "type": "standard",
+      "title": "Intro",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Lets Discuss about the recent Chinese app ban by India. Please answer the Following questions in minimum 40-50 words or Max 300 characters(including spaces)."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592770640664",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1594233571352"
+      },
+      "dialog_node": "node_4_1594234017632"
+    },
+    {
+      "type": "standard",
+      "title": "Store Answer",
+      "parent": "node_2_1594233667429",
+      "context": {
+        "text2": "<? input.text?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_2_1594233696375"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check Success",
+      "parent": "node_2_1594233696375",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1594233778170"
+      },
+      "conditions": "@Character_Check:Success",
+      "dialog_node": "node_9_1594237372105",
+      "previous_sibling": "node_10_1594237303401"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You entered less number of words. Please Elaborate a bit more."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1594233696375",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1594233667429"
+      },
+      "conditions": "@Character_Check != \"Success\"",
+      "dialog_node": "node_10_1594237303401"
+    },
+    {
+      "type": "standard",
+      "title": "Wrong",
+      "parent": "node_1_1592746707943",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1593959794775"
+      },
+      "conditions": "@Basic_Question:false",
+      "dialog_node": "node_7_1592747849275",
+      "previous_sibling": "node_10_1592747806565"
+    },
+    {
+      "type": "standard",
+      "title": "Correct",
+      "parent": "node_1_1592746707943",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1593959794775"
+      },
+      "conditions": "@Basic_Question:true",
+      "dialog_node": "node_10_1592747806565"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check Success",
+      "parent": "node_9_1594233822958",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1594233857442"
+      },
+      "conditions": "@Character_Check:Success",
+      "dialog_node": "node_5_1594237508295",
+      "previous_sibling": "node_6_1594237430497"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You entered less number of words. Please Elaborate a bit more."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_9_1594233822958",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1594233778170"
+      },
+      "conditions": "@Character_Check != \"Success\"",
+      "dialog_node": "node_6_1594237430497"
+    },
+    {
+      "type": "standard",
+      "title": "Store Answer",
+      "parent": "node_6_1594233913740",
+      "context": {
+        "text5": "<? input.text?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_3_1594233978207"
+    },
+    {
+      "type": "standard",
+      "title": "Store Answer",
+      "parent": "node_9_1594233857442",
+      "context": {
+        "text4": "<? input.text?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_1_1594233881294"
+    },
+    {
+      "type": "standard",
+      "title": "Store Anwer",
+      "parent": "node_9_1594233778170",
+      "context": {
+        "text3": "<? input.text?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_9_1594233822958"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 2",
+      "parent": "node_6_1592739826403",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_7_1592740333854"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 2",
+      "dialog_node": "node_5_1592746333713",
+      "previous_sibling": "node_2_1592740191372"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 1",
+      "parent": "node_6_1592739826403",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_2_1592740191372"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 1",
+      "dialog_node": "node_8_1592746253146",
+      "previous_sibling": "node_6_1592740064910"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 3",
+      "parent": "node_6_1592739826403",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_6_1592741233887"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 3",
+      "dialog_node": "node_8_1592746462155",
+      "previous_sibling": "node_7_1592740333854"
+    },
+    {
+      "type": "standard",
+      "title": "Question 3",
+      "output": {
+        "generic": [
+          {
+            "title": "URLs can only be sent over the internet using",
+            "options": [
+              {
+                "label": "URL character set",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "XML character set",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "ASCII character set",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "Data character set",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1592739826403",
+      "context": {
+        "que_ans": 3
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_8_1592746462155"
+      },
+      "conditions": "true && $que_ans==2",
+      "dialog_node": "node_7_1592740333854",
+      "previous_sibling": "node_5_1592746333713"
+    },
+    {
+      "type": "standard",
+      "title": "Question 2",
+      "output": {
+        "generic": [
+          {
+            "title": "How can you open a link in a new browser window?",
+            "options": [
+              {
+                "label": "<a href=\"url\" new>",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "<a href=\"url\" target=\"new\">",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "<a href=\"url\" target=\"_blank\">",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "<a href=\"url\" target=\"\"> ",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1592739826403",
+      "context": {
+        "que_ans": 2
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_5_1592746333713"
+      },
+      "conditions": "true && $que_ans==1",
+      "dialog_node": "node_2_1592740191372",
+      "previous_sibling": "node_8_1592746253146"
+    },
+    {
+      "type": "standard",
+      "title": "Question 1",
+      "output": {
+        "generic": [
+          {
+            "title": "How can you create an e-mail link?",
+            "options": [
+              {
+                "label": "<mail href=\"a@b\">",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": " <mail>a@b</mail>",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "<a href=\"a@b\">",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "<a href=\"a@b.com\">",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1592739826403",
+      "context": {
+        "que_ans": 1
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_8_1592746253146"
+      },
+      "conditions": "true && $que_ans==0",
+      "dialog_node": "node_6_1592740064910",
+      "previous_sibling": "node_1_1592740784152"
+    },
+    {
+      "type": "standard",
+      "title": "Question 4",
+      "output": {
+        "generic": [
+          {
+            "title": "The attribute used to define a new namespace is",
+            "options": [
+              {
+                "label": "XMLNS",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "XmlNameSpace",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "Xmlns",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "XmlNs",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1592739826403",
+      "context": {
+        "que_ans": 4
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_3_1592746574845"
+      },
+      "conditions": "true && $que_ans==3",
+      "dialog_node": "node_6_1592741233887",
+      "previous_sibling": "node_8_1592746462155"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 5",
+      "parent": "node_6_1592739826403",
+      "context": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true && $que_ans == 5",
+      "dialog_node": "node_1_1592746707943",
+      "previous_sibling": "node_9_1592741396112"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 4",
+      "parent": "node_6_1592739826403",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_9_1592741396112"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 4",
+      "dialog_node": "node_3_1592746574845",
+      "previous_sibling": "node_6_1592741233887"
+    },
+    {
+      "type": "standard",
+      "title": "Question 5",
+      "output": {
+        "generic": [
+          {
+            "title": "The test() method of regular expression, is a",
+            "options": [
+              {
+                "label": "Comparison method",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "Conversion method",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "Boolean method",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "Reference method",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1592739826403",
+      "context": {
+        "que_ans": 5
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_1_1592746707943"
+      },
+      "conditions": "true && $que_ans==4",
+      "dialog_node": "node_9_1592741396112",
+      "previous_sibling": "node_3_1592746574845"
+    },
+    {
+      "type": "standard",
+      "title": "Context Variable",
+      "parent": "node_6_1592739826403",
+      "context": {
+        "que_ans": 0
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1592740064910"
+      },
+      "conditions": "true",
+      "dialog_node": "node_1_1592740784152"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check Success",
+      "parent": "node_1_1594233881294",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1594233913740"
+      },
+      "conditions": "@Character_Check:Success",
+      "dialog_node": "node_2_1594237610661",
+      "previous_sibling": "node_6_1594237573015"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You entered less number of words. Please Elaborate a bit more."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1594233881294",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1594233857442"
+      },
+      "conditions": "@Character_Check != \"Success\"",
+      "dialog_node": "node_6_1594237573015"
+    },
+    {
+      "type": "standard",
+      "title": "Questions over",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Your Technical Quiz is done."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_10_1592931796401",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1594119436774"
+      },
+      "conditions": "$ques_counter == 0",
+      "dialog_node": "node_6_1592933160699",
+      "previous_sibling": "node_6_1592931850241"
+    },
+    {
+      "type": "standard",
+      "title": "Ask question",
+      "parent": "node_10_1592931796401",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "type": "quiz",
+            "field": "$cp",
+            "level": "$level"
+          },
+          "result_variable": "return"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_3_1592932092769"
+      },
+      "conditions": "$ques_counter > 0",
+      "dialog_node": "node_6_1592931850241"
+    },
+    {
+      "type": "standard",
+      "title": "Android Developer",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Basic Android Development question will be asked"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_9_1592736263055",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1592741696231"
+      },
+      "conditions": "$Choice_Post=='Android Developer'",
+      "dialog_node": "node_1_1592741606076",
+      "previous_sibling": "node_6_1592739826403"
+    },
+    {
+      "type": "standard",
+      "title": "Web Developer",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Basic Web Development Question will be asked"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_9_1592736263055",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_1_1592740784152"
+      },
+      "conditions": "$Choice_Post=='Web Developer'",
+      "dialog_node": "node_6_1592739826403",
+      "previous_sibling": "node_4_1592736890501"
+    },
+    {
+      "type": "standard",
+      "title": "Data Science",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Since you selected Data Science therefore basic MCQ regarding Probabilty and Statistics will asked."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_9_1592736263055",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592736963121"
+      },
+      "conditions": "$Choice_Post=='Data Scientist'",
+      "dialog_node": "node_4_1592736890501"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 3",
+      "parent": "node_4_1592736890501",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_7_1592739368010"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 3",
+      "dialog_node": "node_8_1592745794321",
+      "previous_sibling": "node_10_1592739217404"
+    },
+    {
+      "type": "standard",
+      "title": "Question 1",
+      "output": {
+        "generic": [
+          {
+            "title": "Three companies A, B and C supply 25%, 35% and 40% of the notebooks to a school. Past experience shows that 5%, 4% and 2% of the notebooks produced by these companies are defective. If a notebook was found to be defective, what is the probability that the notebook was supplied by A?",
+            "options": [
+              {
+                "label": "44/69",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "25/69",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "13/24",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "11/24",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "description": "",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_4_1592736890501",
+      "context": {
+        "que_ans": 1
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_4_1592744462844"
+      },
+      "conditions": "true && $que_ans==0",
+      "dialog_node": "node_10_1592736963121",
+      "previous_sibling": "node_1_1592738852349"
+    },
+    {
+      "type": "standard",
+      "title": "Question 3",
+      "output": {
+        "generic": [
+          {
+            "title": "For a standard normal variate, the value of mean and Standard Deviation is?",
+            "options": [
+              {
+                "label": "∞,0",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "1, ∞",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "0,1",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "not defined, not defined",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_4_1592736890501",
+      "context": {
+        "que_ans": 3
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_8_1592745794321"
+      },
+      "conditions": "true && $que_ans==2",
+      "dialog_node": "node_10_1592739217404",
+      "previous_sibling": "node_7_1592745610415"
+    },
+    {
+      "type": "standard",
+      "title": "Question 4",
+      "output": {
+        "generic": [
+          {
+            "title": "If ‘m’ is the mean of a Poisson Distribution, then variance is given by ____",
+            "options": [
+              {
+                "label": "m^2",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "m^(0.5)",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "m",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "m/2",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_4_1592736890501",
+      "context": {
+        "que_ans": 4
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_10_1592745936109"
+      },
+      "conditions": "true && $que_ans==3",
+      "dialog_node": "node_7_1592739368010",
+      "previous_sibling": "node_8_1592745794321"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 2",
+      "parent": "node_4_1592736890501",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_10_1592739217404"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 2",
+      "dialog_node": "node_7_1592745610415",
+      "previous_sibling": "node_3_1592738261751"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 1",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1592736890501",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_3_1592738261751"
+      },
+      "conditions": "true && $que_ans==1 && @Basic_Question:true",
+      "dialog_node": "node_4_1592744462844",
+      "previous_sibling": "node_10_1592736963121"
+    },
+    {
+      "type": "standard",
+      "title": "Question 5",
+      "output": {
+        "generic": [
+          {
+            "title": "What is the mean of a Chi Square distribution with 6 degrees of freedom?",
+            "options": [
+              {
+                "label": "4",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "12",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "6",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "8",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_4_1592736890501",
+      "context": {
+        "que_ans": 5
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_1_1592747054805"
+      },
+      "conditions": "true && $que_ans==4",
+      "dialog_node": "node_10_1592739654128",
+      "previous_sibling": "node_10_1592745936109"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 5",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_4_1592736890501",
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true && $que_ans == 5",
+      "dialog_node": "node_1_1592747054805",
+      "previous_sibling": "node_10_1592739654128"
+    },
+    {
+      "type": "standard",
+      "title": "Score after ques 4",
+      "parent": "node_4_1592736890501",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_10_1592739654128"
+      },
+      "conditions": "true && @Basic_Question:true && $que_ans == 4",
+      "dialog_node": "node_10_1592745936109",
+      "previous_sibling": "node_7_1592739368010"
+    },
+    {
+      "type": "standard",
+      "title": "Question 2",
+      "output": {
+        "generic": [
+          {
+            "title": "If the probability of hitting the target is 0.4, find mean and variance",
+            "options": [
+              {
+                "label": "0.4, 0.24",
+                "value": {
+                  "input": {
+                    "text": "true"
+                  }
+                }
+              },
+              {
+                "label": "0.6, 0.24",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "0.4, 0.16",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              },
+              {
+                "label": "0.6, 0.16",
+                "value": {
+                  "input": {
+                    "text": "false"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_4_1592736890501",
+      "context": {
+        "que_ans": 2
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_7_1592745610415"
+      },
+      "conditions": "true && $que_ans==1",
+      "dialog_node": "node_3_1592738261751",
+      "previous_sibling": "node_4_1592744462844"
+    },
+    {
+      "type": "standard",
+      "title": "Context Variable",
+      "parent": "node_4_1592736890501",
+      "context": {
+        "que_ans": 0
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_10_1592736963121"
+      },
+      "conditions": "true",
+      "dialog_node": "node_1_1592738852349"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            ""
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1592931850241",
+      "conditions": "anything_else",
+      "dialog_node": "response_5_1592931875750",
+      "previous_sibling": "response_6_1592931873212"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "title": "Answer the following Question",
+            "source": "$return.url",
+            "description": "If MCQ Write Option in Caps",
+            "response_type": "image"
+          }
+        ]
+      },
+      "parent": "node_6_1592931850241",
+      "conditions": "$return",
+      "dialog_node": "response_6_1592931873212",
+      "previous_sibling": "node_3_1592932092769"
+    },
+    {
+      "type": "standard",
+      "title": "Store answer",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_6_1592931850241",
+      "context": {
+        "user_ans": "<?input.text?>",
+        "ques_counter": "<? $ques_counter - 1 ?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_3_1592932092769"
+    },
+    {
+      "type": "standard",
+      "title": "Wrong",
+      "parent": "node_1_1592747054805",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1593959794775"
+      },
+      "conditions": "@Basic_Question:false",
+      "dialog_node": "node_8_1592747126658",
+      "previous_sibling": "node_1_1592747085950"
+    },
+    {
+      "type": "standard",
+      "title": "Correct",
+      "parent": "node_1_1592747054805",
+      "context": {
+        "score": "<? $score + 1 ?>"
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1593959794775"
+      },
+      "conditions": "@Basic_Question:true",
+      "dialog_node": "node_1_1592747085950"
+    },
+    {
+      "type": "response_condition",
+      "parent": "node_5_1594234988263",
+      "conditions": "anything_else",
+      "dialog_node": "response_5_1594235009542",
+      "previous_sibling": "response_7_1594235006406"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1594234988263",
+      "conditions": "$webhook_result_2",
+      "dialog_node": "response_7_1594235006406"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_7_1592125282875",
+      "disabled": true,
+      "dialog_node": "response_5_1592751626225"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_7_1592770883054",
+      "event_name": "focus",
+      "dialog_node": "handler_9_1592770883183",
+      "previous_sibling": "handler_2_1592770883183"
+    },
+    {
+      "type": "event_handler",
+      "parent": "slot_7_1592770883054",
+      "event_name": "input",
+      "dialog_node": "handler_2_1592770883183"
+    },
+    {
+      "type": "standard",
+      "title": "Wrng Ans",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_3_1592932092769",
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "$user_ans != $return.res",
+      "dialog_node": "node_5_1593009871160",
+      "previous_sibling": "node_6_1593009771143"
+    },
+    {
+      "type": "standard",
+      "title": "Crct Ans",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_3_1592932092769",
+      "context": {
+        "level": "<? $level +1 ?>",
+        "tech_score": "<? $tech_score + $level - 1?>"
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "$user_ans == $return.res",
+      "dialog_node": "node_6_1593009771143"
+    },
+    {
+      "type": "standard",
+      "title": "Leave",
+      "parent": "node_5_1594119436774",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_4_1592770640664"
+      },
+      "conditions": "$tech_score < 14",
+      "dialog_node": "node_10_1594119515629",
+      "previous_sibling": "node_1_1594119448419"
+    },
+    {
+      "type": "standard",
+      "title": "Add",
+      "parent": "node_5_1594119436774",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "type": "score",
+            "email": "$email"
+          },
+          "result_variable": "webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_4_1592770640664"
+      },
+      "conditions": "$tech_score >= 14",
+      "dialog_node": "node_1_1594119448419"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check Success",
+      "parent": "node_10_1594233634266",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1594233667429"
+      },
+      "conditions": "@Character_Check:Success",
+      "dialog_node": "node_4_1594236862038",
+      "previous_sibling": "node_8_1594236743063"
+    },
+    {
+      "type": "standard",
+      "title": "Char Check",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You entered less number of words. Please Elaborate a bit more."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_10_1594233634266",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1594233571352"
+      },
+      "conditions": "@Character_Check != \"Success\"",
+      "dialog_node": "node_8_1594236743063"
+    },
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Your assessment is complete. Thank you for taking this assessment from Team Enigma. We wish you best of luck for your future encounters."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_6_1594043514811",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "Initialise database",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "post": "$cp",
+            "type": "initialise",
+            "email": "$email"
+          },
+          "result_variable": "ini_data"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "dialog_node": "node_3_1594114254107",
+      "previous_sibling": "node_5_1592770829531"
+    },
+    {
+      "type": "standard",
+      "title": "Conversion of Variable",
+      "context": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "@Confimation:Yes",
+      "dialog_node": "node_5_1592770829531",
+      "previous_sibling": "node_3_1592125940954"
+    },
+    {
+      "type": "frame",
+      "title": "Choice of Post",
+      "output": {
+        "generic": [
+          {
+            "title": "Choose the Post You want to apply",
+            "options": [
+              {
+                "label": "Data Scientist",
+                "value": {
+                  "input": {
+                    "text": "Data Scientist"
+                  }
+                }
+              },
+              {
+                "label": "Web Developer",
+                "value": {
+                  "input": {
+                    "text": "Web Developer"
+                  }
+                }
+              },
+              {
+                "label": "Android Developer",
+                "value": {
+                  "input": {
+                    "text": "Android Developer"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "metadata": {
+        "callout": {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "": ""
+          },
+          "result_variable": "webhook_result_1"
+        },
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_3_1592125940954"
+      },
+      "conditions": "@Confimation:No",
+      "dialog_node": "node_7_1592125282875",
+      "previous_sibling": "node_2_1592128374760"
+    },
+    {
+      "type": "standard",
+      "title": "Basic Questions",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "@Confimation:Yes",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_9_1592736263055",
+      "previous_sibling": "node_3_1594114254107"
+    },
+    {
+      "type": "standard",
+      "title": "Tech Quiz",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "context": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "@Confimation:Yes",
+      "dialog_node": "node_10_1592931796401",
+      "previous_sibling": "node_9_1593959794775"
+    },
+    {
+      "type": "standard",
+      "title": "Get Result",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "type": "personality",
+            "text1": "$text1",
+            "text2": "$text2",
+            "text3": "$text3",
+            "text4": "$text4",
+            "text5": "$text5"
+          },
+          "result_variable": "ret_perso"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "true",
+      "dialog_node": "node_6_1594043514811",
+      "previous_sibling": "node_4_1592770640664"
+    },
+    {
+      "type": "standard",
+      "title": "Update Score",
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "dialog_node": "node_5_1594119436774",
+      "previous_sibling": "node_10_1592931796401"
+    },
+    {
+      "type": "standard",
+      "title": "Level Selector",
+      "output": {
+        "generic": []
+      },
+      "context": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "dialog_node": "node_9_1593959794775",
+      "previous_sibling": "node_9_1592736263055"
+    },
+    {
+      "type": "frame",
+      "title": "Confirmation of Post",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Do you confirm for $Choice_Post ?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_5_1592770829531"
+      },
+      "conditions": "#Choice_Post",
+      "dialog_node": "node_3_1592125940954",
+      "previous_sibling": "node_7_1592125282875"
+    },
+    {
+      "type": "standard",
+      "title": "Personality",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Enough on the Technical Questionnaire, Lets discuss something about the current scenario."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "context": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_4_1594234017632"
+      },
+      "conditions": "$ques_counter == 0 || $ret_perso == \"no\"",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_4_1592770640664",
+      "previous_sibling": "node_5_1594119436774"
+    },
+    {
+      "type": "standard",
+      "title": "Email ID",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "For confirmation purpose please re-enter your email that you used for login"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_4_1592124827426"
+      },
+      "dialog_node": "node_2_1592128374760",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hello, Welcome to the AI Recruiter ChatBot."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "context": {
+        "score": 0,
+        "tech_score": 0,
+        "ques_counter": 5
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1592128374760"
+      },
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "AI Recruiter",
+  "language": "en",
+  "description": ""
+}
