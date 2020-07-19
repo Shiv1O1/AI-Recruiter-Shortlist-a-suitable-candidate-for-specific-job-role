@@ -9,8 +9,7 @@ class Email(object):
         self.uid = uid
 
     def send_mail(self):
-        conn = ibm_db.connect("DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-lon02-07.services.eu-gb.bluemix.net; "
-                              "PORT=50000;PROTOCOL=TCPIP;UID=xzb63372;PWD=r4157ttpdgjb@512;", "", "")
+        conn = ibm_db.connect("your DB2 credentials", "", "")
 
         query = "SELECT F_NAME,M_NAME,L_NAME,EMAIL FROM LOGIN WHERE UID = '" + str(self.uid) + "'"
         stmt = ibm_db.exec_immediate(conn, query)
