@@ -1,4 +1,4 @@
-Flask == 1.1.2
+Flask == 2.3.2
 ibm_db == 3.0.2
 googledrivedownloader == 0.4
 en_core_web_sm == 2.3.0
